@@ -1,0 +1,74 @@
+{
+  "name": "wordpress-php-import-sorter",
+  "displayName": "WordPress PHP Import Sorter",
+  "description": "Automatically sort PHP imports in accordance with WordPress coding standards",
+  "version": "0.0.2",
+  "publisher": "tkstang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tkstang/wordpress-php-import-sorter"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Formatters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:php"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "wordpress-php-import-sorter.sortImports",
+        "title": "Sort PHP Imports (WordPress Standards)"
+      }
+    ],
+    "configuration": {
+      "title": "WordPress PHP Import Sorter",
+      "properties": {
+        "wordpress-php-import-sorter.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Format PHP imports on save"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "pnpm run pretest && pnpm run test:unit && pnpm run test:extension",
+    "test:extension": "vscode-test",
+    "test:unit": "mocha -r ts-node/register 'src/test/unit/**/*.test.ts'",
+    "test:debug": "mocha -r ts-node/register src/test/debug.test.ts"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.96.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "esbuild": "^0.25.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.2",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "@types/glob": "^8.1.0",
+    "glob": "^10.3.10",
+    "ts-node": "^10.9.2",
+    "mocha": "^10.3.0"
+  }
+}
